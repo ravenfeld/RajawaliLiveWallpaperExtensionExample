@@ -2,14 +2,14 @@ package fr.ravenfeld.livewallpaper.library.example;
 
 import rajawali.wallpaper.Wallpaper;
 import android.content.Context;
-import fr.ravenfeld.livewallpaper.library.example.renderer.RendererBackgroundGIFFixed;
+import fr.ravenfeld.livewallpaper.library.example.renderer.RendererBackgroundSwipe;
 
 public class Service extends Wallpaper {
-	private RendererBackgroundGIFFixed mRenderer;
+	private RendererBackgroundSwipe mRenderer;
 
 	@Override
 	public Engine onCreateEngine() {
-		mRenderer = new RendererBackgroundGIFFixed(this);
+		mRenderer = new RendererBackgroundSwipe(this);
 		return new WallpaperEngine(this.getSharedPreferences(SHARED_PREFS_NAME,
 				Context.MODE_PRIVATE), getBaseContext(), mRenderer, false);
 	}

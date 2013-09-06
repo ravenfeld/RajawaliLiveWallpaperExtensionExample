@@ -13,6 +13,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.view.MotionEvent;
 import fr.ravenfeld.livewallpaper.library.example.R;
+import fr.ravenfeld.livewallpaper.library.objects.interaction.SwipeDirection;
 import fr.ravenfeld.livewallpaper.library.objects.simple.BackgroundGIFSwipe;
 
 public class RendererBackgroundGIFSwipe extends RajawaliRenderer implements
@@ -39,7 +40,8 @@ public class RendererBackgroundGIFSwipe extends RajawaliRenderer implements
 		getCurrentCamera().setLookAt(0, 0, 0);
 
 		try {
-			mBackgroundGIFSwipe = new BackgroundGIFSwipe("bg1", R.drawable.bob);
+			mBackgroundGIFSwipe = new BackgroundGIFSwipe("bg1", R.drawable.bob,
+					SwipeDirection.NORMAL);
 			mBackgroundGIFSwipe.rewind();
 		} catch (TextureException e) {
 			// TODO Auto-generated catch block
