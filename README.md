@@ -24,7 +24,7 @@ Please check out the [project](https://github.com/ravenfeld/RajawaliLiveWallpape
 ### How to use it ?
 Replaced CLASS_RENDERER by the class you want to test
 
-'' java
+`` java
 private CLASS_RENDERER mRenderer;
 
 @Override
@@ -33,7 +33,7 @@ public Engine onCreateEngine() {
 	return new WallpaperEngine(this.getSharedPreferences(SHARED_PREFS_NAME,
 			Context.MODE_PRIVATE), getBaseContext(), mRenderer, false);
 }
-''	  
+``	  
 ## Developed by
   * Alexis Lecanu alias Ravenfeld - [alexis.lecanu@gmail.com](mailto:alexis.lecanu@gmail.com)
     	
