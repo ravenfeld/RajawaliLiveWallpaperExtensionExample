@@ -1,4 +1,4 @@
-package fr.ravenfeld.livewallpaper.library.example;
+package fr.ravenfeld.livewallpaper.library.example.renderer;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -6,21 +6,22 @@ import javax.microedition.khronos.opengles.GL10;
 import rajawali.Camera2D;
 import rajawali.materials.textures.ATexture.TextureException;
 import rajawali.renderer.RajawaliRenderer;
+import rajawali.util.RajLog;
 import rajawali.wallpaper.Wallpaper;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.view.MotionEvent;
-import fr.ravenfeld.livewallpaper.library.objects.simple.BackgroundSwipe;
+import fr.ravenfeld.livewallpaper.library.example.R;
+import fr.ravenfeld.livewallpaper.library.objects.simple.BackgroundFixed;
 
-public class Renderer extends RajawaliRenderer implements
+public class RendererBackgroundFixed extends RajawaliRenderer implements
 		SharedPreferences.OnSharedPreferenceChangeListener {
 	private final SharedPreferences mSharedPreferences;
 
-	private BackgroundSwipe mBackgroundSwipe;
+	private BackgroundFixed mBackgroundFixed;
 
-
-	public Renderer(Context context) {
+	public RendererBackgroundFixed(Context context) {
 		super(context);
 
 		mSharedPreferences = context.getSharedPreferences(
@@ -30,23 +31,23 @@ public class Renderer extends RajawaliRenderer implements
 
 	@Override
 	protected void initScene() {
+		RajLog.systemInformation();
+
 		Camera2D cam = new Camera2D();
 		this.replaceAndSwitchCamera(getCurrentCamera(), cam);
 		getCurrentScene().setBackgroundColor(Color.RED);
 		getCurrentCamera().setLookAt(0, 0, 0);
 
 		try {
-			mBackgroundSwipe = new BackgroundSwipe("bg1", R.drawable.bg);
+			mBackgroundFixed = new BackgroundFixed("bg1", R.drawable.bob_bg);
 
 		} catch (TextureException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		addChild(mBackgroundSwipe.getObject3D());
+		addChild(mBackgroundFixed.getObject3D());
 
 	}
-
-
 
 	@Override
 	public void onDrawFrame(GL10 glUnused) {
@@ -66,8 +67,8 @@ public class Renderer extends RajawaliRenderer implements
 	@Override
 	public void onSurfaceChanged(GL10 gl, int width, int height) {
 		super.onSurfaceChanged(gl, width, height);
-		if (mBackgroundSwipe != null) {
-			mBackgroundSwipe.surfaceChanged(width, height);
+		if (mBackgroundFixed != null) {
+			mBackgroundFixed.surfaceChanged(width, height);
 		}
 	}
 
@@ -79,7 +80,6 @@ public class Renderer extends RajawaliRenderer implements
 
 	@Override
 	public void onSurfaceDestroyed() {
-
 		super.onSurfaceDestroyed();
 	}
 
@@ -92,8 +92,5 @@ public class Renderer extends RajawaliRenderer implements
 	public void onOffsetsChanged(float xOffset, float yOffset,
 			float xOffsetStep, float yOffsetStep, int xPixelOffset,
 			int yPixelOffset) {
-		if (mBackgroundSwipe != null) {
-			mBackgroundSwipe.offsetsChanged(xOffset);
-		}
 	}
 }
