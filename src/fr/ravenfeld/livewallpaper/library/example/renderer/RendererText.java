@@ -45,12 +45,12 @@ public class RendererText extends RajawaliRenderer implements
 
 		Camera2D cam = new Camera2D();
 		this.replaceAndSwitchCamera(getCurrentCamera(), cam);
-		getCurrentScene().setBackgroundColor(Color.BLACK);
+		getCurrentScene().setBackgroundColor(Color.WHITE);
 		getCurrentCamera().setLookAt(0, 0, 0);
 
-		mText = new Text(mContext, "TEXT\nCACA", 28);
-		mText.setBackgroundColor(Color.TRANSPARENT);
-		mText.setTextColor(Color.RED);
+		mText = new Text(mContext, "TEXTEXAMPLED?XEI\nONOXIENOCNIEN", 28);
+		mText.setBackgroundColor(Color.RED);
+		mText.setTextColor(Color.BLACK);
 		mText.setPosition(0, 0, 0);
 		mText.setFont("fonts/DK_Pusekatt.otf");
 		mText.setScale(1, 1, 0.5);

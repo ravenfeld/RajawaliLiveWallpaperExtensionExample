@@ -40,10 +40,10 @@ public Engine onCreateEngine() {
     	
 ## Tested 
   * Galaxy S3
-  * Galaxy Tab 10 
+  * Nexus 7
     
 ## Bugs
-  * 
+  * if your GIF does not work, check in photoshop the duration frames isn't set to 0
   
 ## Licence
     
