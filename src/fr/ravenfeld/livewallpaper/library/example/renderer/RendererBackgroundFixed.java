@@ -51,7 +51,7 @@ public class RendererBackgroundFixed extends RajawaliRenderer implements
 		getCurrentCamera().setLookAt(0, 0, 0);
 
 		try {
-			mBackgroundFixed = new BackgroundFixed("bg1", R.drawable.bg_power2);
+			mBackgroundFixed = new BackgroundFixed("bg", R.drawable.bg_power2);
 
 		} catch (TextureException e) {
 			e.printStackTrace();

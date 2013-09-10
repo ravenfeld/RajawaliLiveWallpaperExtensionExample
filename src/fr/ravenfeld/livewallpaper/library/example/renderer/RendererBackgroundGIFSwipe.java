@@ -52,7 +52,7 @@ public class RendererBackgroundGIFSwipe extends RajawaliRenderer implements
 		getCurrentCamera().setLookAt(0, 0, 0);
 
 		try {
-			mBackgroundGIFSwipe = new BackgroundGIFSwipe("bg1", R.drawable.bob,
+			mBackgroundGIFSwipe = new BackgroundGIFSwipe("bg", R.drawable.bob,
 					SwipeDirection.NORMAL);
 			mBackgroundGIFSwipe.rewind();
 		} catch (TextureException e) {

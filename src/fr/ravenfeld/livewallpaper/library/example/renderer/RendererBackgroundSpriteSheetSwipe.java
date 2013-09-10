@@ -50,7 +50,7 @@ public class RendererBackgroundSpriteSheetSwipe extends RajawaliRenderer impleme
 
 		try {
 			mBackgroundSpriteSheetSwipe = new BackgroundSpriteSheetSwipe(
-"bg1",
+"bg",
 					R.drawable.sprite, 7, 1, 1, 7);
 			mBackgroundSpriteSheetSwipe.setTransparent(true);
 		} catch (TextureException e) {

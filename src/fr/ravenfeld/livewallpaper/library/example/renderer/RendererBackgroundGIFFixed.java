@@ -51,7 +51,7 @@ public class RendererBackgroundGIFFixed extends RajawaliRenderer implements
 		getCurrentCamera().setLookAt(0, 0, 0);
 
 		try {
-			mBackgroundGIFFixed = new BackgroundGIFFixed("bg1", R.drawable.bob);
+			mBackgroundGIFFixed = new BackgroundGIFFixed("bg", R.drawable.bob);
 			mBackgroundGIFFixed.rewind();
 		} catch (TextureException e) {
 			e.printStackTrace();
