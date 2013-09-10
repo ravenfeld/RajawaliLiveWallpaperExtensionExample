@@ -16,6 +16,7 @@ import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 import rajawali.Camera2D;
+import rajawali.materials.textures.ATexture.TextureException;
 import rajawali.renderer.RajawaliRenderer;
 import rajawali.util.RajLog;
 import rajawali.wallpaper.Wallpaper;
@@ -23,15 +24,15 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.view.MotionEvent;
-import fr.ravenfeld.livewallpaper.library.objects.simple.Text;
+import fr.ravenfeld.livewallpaper.library.example.R;
+import fr.ravenfeld.livewallpaper.library.objects.simple.BackgroundSpriteSheetSwipe;
 
-public class RendererText extends RajawaliRenderer implements
+public class RendererBackgroundSpriteSheetSwipe extends RajawaliRenderer implements
 		SharedPreferences.OnSharedPreferenceChangeListener {
 	private final SharedPreferences mSharedPreferences;
 
-	private Text mText;
-
-	public RendererText(Context context) {
+	private BackgroundSpriteSheetSwipe mBackgroundSpriteSheetSwipe;
+	public RendererBackgroundSpriteSheetSwipe(Context context) {
 		super(context);
 
 		mSharedPreferences = context.getSharedPreferences(
@@ -45,22 +46,20 @@ public class RendererText extends RajawaliRenderer implements
 
 		Camera2D cam = new Camera2D();
 		this.replaceAndSwitchCamera(getCurrentCamera(), cam);
-		getCurrentScene().setBackgroundColor(Color.WHITE);
-		getCurrentCamera().setLookAt(0, 0, 0);
+		getCurrentScene().setBackgroundColor(Color.RED);
 
-		mText = new Text(mContext, "TEXTEXAMPLED?XEI\nONOXIENOCNIEN", 28);
-		mText.setBackgroundColor(Color.RED);
-		mText.setTextColor(Color.BLACK);
-		mText.setPosition(0, 0, 0);
-		mText.setFont("fonts/DK_Pusekatt.otf");
-		// mText.setScale(1, 1, 0.5);
-		mText.setPosition(0.10, -0.1, 0);
-		addChild(mText.getObject3D());
+		try {
+			mBackgroundSpriteSheetSwipe = new BackgroundSpriteSheetSwipe(
+"bg1",
+					R.drawable.sprite, 7, 1, 1, 7);
+			mBackgroundSpriteSheetSwipe.setTransparent(true);
+		} catch (TextureException e) {
+			e.printStackTrace();
+		}
+		addChild(mBackgroundSpriteSheetSwipe.getObject3D());
+
 
 	}
-
-
-
 
 	@Override
 	public void onDrawFrame(GL10 glUnused) {
@@ -80,15 +79,21 @@ public class RendererText extends RajawaliRenderer implements
 	@Override
 	public void onSurfaceChanged(GL10 gl, int width, int height) {
 		super.onSurfaceChanged(gl, width, height);
-		if (mText != null) {
-			mText.surfaceChanged(width, height);
+		if (mBackgroundSpriteSheetSwipe != null) {
+			mBackgroundSpriteSheetSwipe.surfaceChanged(width, height);
 		}
 	}
 
 	@Override
 	public void onVisibilityChanged(boolean visible) {
 		super.onVisibilityChanged(visible);
-
+		if (mBackgroundSpriteSheetSwipe != null) {
+			if (visible) {
+				mBackgroundSpriteSheetSwipe.animate();
+			} else {
+				mBackgroundSpriteSheetSwipe.stopAnimation();
+			}
+		}
 	}
 
 	@Override
@@ -105,5 +110,8 @@ public class RendererText extends RajawaliRenderer implements
 	public void onOffsetsChanged(float xOffset, float yOffset,
 			float xOffsetStep, float yOffsetStep, int xPixelOffset,
 			int yPixelOffset) {
+		if (mBackgroundSpriteSheetSwipe != null) {
+			mBackgroundSpriteSheetSwipe.offsetsChanged(xOffset);
+		}
 	}
 }

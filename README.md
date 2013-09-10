@@ -44,7 +44,7 @@ public Engine onCreateEngine() {
     
 ## Bugs
   * if your GIF does not work, check in photoshop the duration frames isn't set to 0
-  
+  * Nexus 7, your textures size in power of two 
 ## Licence
     
 Copyright 2013-2014 - Alexis Lecanu ([alexis.lecanu@gmail.com](mailto:alexis.lecanu@gmail.com))
