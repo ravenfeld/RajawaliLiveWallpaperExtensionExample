@@ -52,7 +52,6 @@ public class RendererBackgroundSpriteSheetFixed extends RajawaliRenderer impleme
 			mBackgroundSpriteSheetFixed = new BackgroundSpriteSheetFixed(
 "bg",
 					R.drawable.sprite, 7, 1, 1, 7);
-			mBackgroundSpriteSheetFixed.setTransparent(true);
 		} catch (TextureException e) {
 			e.printStackTrace();
 		}

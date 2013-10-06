@@ -76,9 +76,6 @@ public class RendererBackgroundBasic extends RajawaliRenderer implements
 	@Override
 	public void onSurfaceChanged(GL10 gl, int width, int height) {
 		super.onSurfaceChanged(gl, width, height);
-		// if (mBackgroundFixed != null) {
-		// mBackgroundFixed.surfaceChanged(width, height);
-		// }
 	}
 
 	@Override
