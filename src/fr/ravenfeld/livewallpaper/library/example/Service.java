@@ -1,15 +1,16 @@
 package fr.ravenfeld.livewallpaper.library.example;
 
+import fr.ravenfeld.livewallpaper.library.example.renderer.RendererText;
 import rajawali.wallpaper.Wallpaper;
 import android.content.Context;
 import fr.ravenfeld.livewallpaper.library.example.renderer.RendererBackgroundFixed;
 
 public class Service extends Wallpaper {
-	private RendererBackgroundFixed mRenderer;
+	private RendererText mRenderer;
 
 	@Override
 	public Engine onCreateEngine() {
-		mRenderer = new RendererBackgroundFixed(this);
+		mRenderer = new RendererText(this);
 		return new WallpaperEngine(this.getSharedPreferences(SHARED_PREFS_NAME,
 				Context.MODE_PRIVATE), getBaseContext(), mRenderer, false);
 	}

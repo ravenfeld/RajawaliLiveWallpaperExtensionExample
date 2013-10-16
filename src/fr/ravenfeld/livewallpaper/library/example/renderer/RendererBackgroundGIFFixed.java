@@ -98,8 +98,15 @@ public class RendererBackgroundGIFFixed extends RajawaliRenderer implements
 
 	@Override
 	public void onSurfaceDestroyed() {
-		super.onSurfaceDestroyed();
-	}
+        try {
+            mBackgroundGIFFixed.surfaceDestroyed();
+            mTextureManager.taskRemove(mBackgroundGIFFixed.getTexture());
+            mMaterialManager.taskRemove(mBackgroundGIFFixed.getMaterial());
+        } catch (TextureException e) {
+            e.printStackTrace();
+        }
+        super.onSurfaceDestroyed();
+    }
 
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,

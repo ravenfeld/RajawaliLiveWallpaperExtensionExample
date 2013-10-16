@@ -100,8 +100,15 @@ public class RendererBackgroundGIFSwipe extends RajawaliRenderer implements
 
 	@Override
 	public void onSurfaceDestroyed() {
-		super.onSurfaceDestroyed();
-	}
+        try {
+            mBackgroundGIFSwipe.surfaceDestroyed();
+            mTextureManager.taskRemove(mBackgroundGIFSwipe.getTexture());
+            mMaterialManager.taskRemove(mBackgroundGIFSwipe.getMaterial());
+        } catch (TextureException e) {
+            e.printStackTrace();
+        }
+        super.onSurfaceDestroyed();
+    }
 
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,

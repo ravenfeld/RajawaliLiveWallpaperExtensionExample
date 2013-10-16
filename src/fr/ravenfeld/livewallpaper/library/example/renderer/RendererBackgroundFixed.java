@@ -91,7 +91,14 @@ public class RendererBackgroundFixed extends RajawaliRenderer implements
 
 	@Override
 	public void onSurfaceDestroyed() {
-		super.onSurfaceDestroyed();
+        try {
+            mBackgroundFixed.surfaceDestroyed();
+            mTextureManager.taskRemove(mBackgroundFixed.getTexture());
+            mMaterialManager.taskRemove(mBackgroundFixed.getMaterial());
+        } catch (TextureException e) {
+            e.printStackTrace();
+        }
+        super.onSurfaceDestroyed();
 	}
 
 	@Override

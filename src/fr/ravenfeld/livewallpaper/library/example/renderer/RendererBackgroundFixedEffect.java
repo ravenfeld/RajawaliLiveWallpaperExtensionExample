@@ -57,6 +57,9 @@ public class RendererBackgroundFixedEffect extends RajawaliRenderer implements
 		} catch (TextureException e) {
 			e.printStackTrace();
 		}
+        mBackgroundFixedEffect.setDuration(2000);
+        registerAnimation(mBackgroundFixedEffect.getAnimation());
+
 		addChild(mBackgroundFixedEffect.getObject3D());
 
 	}
@@ -64,9 +67,7 @@ public class RendererBackgroundFixedEffect extends RajawaliRenderer implements
 	@Override
 	public void onDrawFrame(GL10 glUnused) {
 		super.onDrawFrame(glUnused);
-		if (mBackgroundFixedEffect != null) {
-			mBackgroundFixedEffect.update(0.005f);
-		}
+
 	}
 
 	@Override
@@ -95,6 +96,14 @@ public class RendererBackgroundFixedEffect extends RajawaliRenderer implements
 
 	@Override
 	public void onSurfaceDestroyed() {
+        try {
+            mBackgroundFixedEffect.surfaceDestroyed();
+            mTextureManager.taskRemove(mBackgroundFixedEffect.getTextures()[0]);
+            mTextureManager.taskRemove(mBackgroundFixedEffect.getTextures()[1]);
+            mMaterialManager.taskRemove(mBackgroundFixedEffect.getMaterial());
+        } catch (TextureException e) {
+            e.printStackTrace();
+        }
 		super.onSurfaceDestroyed();
 	}
 

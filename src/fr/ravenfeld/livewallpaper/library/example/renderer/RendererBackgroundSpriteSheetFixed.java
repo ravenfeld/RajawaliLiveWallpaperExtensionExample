@@ -97,8 +97,15 @@ public class RendererBackgroundSpriteSheetFixed extends RajawaliRenderer impleme
 
 	@Override
 	public void onSurfaceDestroyed() {
-		super.onSurfaceDestroyed();
-	}
+        try {
+            mBackgroundSpriteSheetFixed.surfaceDestroyed();
+            mTextureManager.taskRemove(mBackgroundSpriteSheetFixed.getTexture());
+            mMaterialManager.taskRemove(mBackgroundSpriteSheetFixed.getMaterial());
+        } catch (TextureException e) {
+            e.printStackTrace();
+        }
+        super.onSurfaceDestroyed();
+    }
 
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,

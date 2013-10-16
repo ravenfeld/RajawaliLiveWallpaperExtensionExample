@@ -98,7 +98,14 @@ public class RendererBackgroundSpriteSheetSwipe extends RajawaliRenderer impleme
 
 	@Override
 	public void onSurfaceDestroyed() {
-		super.onSurfaceDestroyed();
+        try {
+            mBackgroundSpriteSheetSwipe.surfaceDestroyed();
+            mTextureManager.taskRemove(mBackgroundSpriteSheetSwipe.getTexture());
+            mMaterialManager.taskRemove(mBackgroundSpriteSheetSwipe.getMaterial());
+        } catch (TextureException e) {
+            e.printStackTrace();
+        }
+        super.onSurfaceDestroyed();
 	}
 
 	@Override

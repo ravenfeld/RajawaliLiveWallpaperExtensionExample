@@ -93,7 +93,14 @@ public class RendererBackgroundSwipe extends RajawaliRenderer implements
 
 	@Override
 	public void onSurfaceDestroyed() {
-		super.onSurfaceDestroyed();
+        try {
+            mBackgroundSwipe.surfaceDestroyed();
+            mTextureManager.taskRemove(mBackgroundSwipe.getTexture());
+            mMaterialManager.taskRemove(mBackgroundSwipe.getMaterial());
+        } catch (TextureException e) {
+            e.printStackTrace();
+        }
+        super.onSurfaceDestroyed();
 	}
 
 	@Override
