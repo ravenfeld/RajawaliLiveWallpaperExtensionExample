@@ -26,6 +26,8 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.view.MotionEvent;
 
+import java.util.Date;
+
 import fr.ravenfeld.livewallpaper.library.objects.simple.Text;
 
 public class RendererText extends RajawaliRenderer implements
@@ -33,7 +35,7 @@ public class RendererText extends RajawaliRenderer implements
     private final SharedPreferences mSharedPreferences;
 
     private Text mText;
-
+    private int lastSecond=-1;
     public RendererText(Context context) {
         super(context);
 
@@ -46,24 +48,38 @@ public class RendererText extends RajawaliRenderer implements
     protected void initScene() {
         RajLog.systemInformation();
 
-        Camera2D cam = new Camera2D();
-        this.replaceAndSwitchCamera(getCurrentCamera(), cam);
+        //Camera2D cam = new Camera2D();
+        //this.replaceAndSwitchCamera(getCurrentCamera(), cam);
+
         getCurrentScene().setBackgroundColor(Color.WHITE);
         getCurrentCamera().setLookAt(0, 0, 0);
 
-        mText = new Text(mContext, "TEXTEXAMPLED?XEI\nONOXIENOCNIEN", 28);
-        mText.setBackgroundColor(Color.BLUE);
-        mText.setTextColor(Color.RED);
+        mText = new Text(mContext, "123", 28);
+        mText.setBackgroundColor(Color.WHITE);
+        mText.setTextColor(Color.BLACK);
         mText.setFont("fonts/DK_Pusekatt.otf");
-        mText.setPosition(0.10, -0.1, 0);
+        mText.setPosition(0, 0, 0);
         addChild(mText.getObject3D());
-
     }
 
 
     @Override
     public void onDrawFrame(GL10 glUnused) {
         super.onDrawFrame(glUnused);
+        if(mText!= null){
+            Date date = new Date();
+            int hours = date.getHours();
+            int minutes = date.getMinutes();
+            int secondes =date.getSeconds();
+            //mText.setText("" + hours + " : " + String.format("%02d", minutes)+" : " + String.format("%02d", secondes));
+            //mTextureManager.replaceTexture(mText.getTexture());
+           if(lastSecond!= secondes){
+            mText.setText(mText.getText()+"A");
+            lastSecond=secondes;
+           }
+            mTextureManager.replaceTexture(mText.getTexture());
+
+        }
     }
 
     @Override
