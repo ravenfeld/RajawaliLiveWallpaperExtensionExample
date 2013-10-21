@@ -12,30 +12,27 @@
  */
 package fr.ravenfeld.livewallpaper.library.example.renderer;
 
-import javax.microedition.khronos.egl.EGLConfig;
-import javax.microedition.khronos.opengles.GL10;
-
-import rajawali.Camera2D;
-import rajawali.materials.textures.ATexture;
-import rajawali.renderer.RajawaliRenderer;
-import rajawali.util.RajLog;
-import rajawali.wallpaper.Wallpaper;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.view.MotionEvent;
 
-import java.util.Date;
+import javax.microedition.khronos.egl.EGLConfig;
+import javax.microedition.khronos.opengles.GL10;
 
 import fr.ravenfeld.livewallpaper.library.objects.simple.Text;
+import rajawali.Camera2D;
+import rajawali.materials.textures.ATexture;
+import rajawali.renderer.RajawaliRenderer;
+import rajawali.wallpaper.Wallpaper;
 
 public class RendererText extends RajawaliRenderer implements
         SharedPreferences.OnSharedPreferenceChangeListener {
     private final SharedPreferences mSharedPreferences;
 
     private Text mText;
-    private int mNumber=1;
+    private int mNumber = 1;
+
     public RendererText(Context context) {
         super(context);
 
@@ -46,17 +43,16 @@ public class RendererText extends RajawaliRenderer implements
 
     @Override
     protected void initScene() {
-setFrameRate(5);
         Camera2D cam = new Camera2D();
         this.replaceAndSwitchCamera(getCurrentCamera(), cam);
 
         getCurrentScene().setBackgroundColor(Color.WHITE);
         getCurrentCamera().setLookAt(0, 0, 0);
 
-        mText = new Text(mContext, "", 28);
-        mText.setBackgroundColor(Color.WHITE);
-        mText.setTextColor(Color.BLACK);
-        //mText.setFont("fonts/DK_Pusekatt.otf");
+        mText = new Text(mContext, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", 28);
+        mText.setBackgroundColor(Color.RED);
+        mText.setTextColor(Color.BLUE);
+        mText.setFont("fonts/DK_Pusekatt.otf");
         mText.setPosition(0, 0, 0);
         addChild(mText.getObject3D());
     }
@@ -65,16 +61,6 @@ setFrameRate(5);
     @Override
     public void onDrawFrame(GL10 glUnused) {
         super.onDrawFrame(glUnused);
-        if(mText!= null){
-
-            mText.setText(mText.getText()+mNumber);
-            mNumber++;
-            if(mNumber>9){
-                mNumber=0;
-            }
-            mTextureManager.replaceTexture(mText.getTexture());
-
-        }
     }
 
     @Override
