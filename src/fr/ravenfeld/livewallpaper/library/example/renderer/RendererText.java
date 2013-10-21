@@ -35,7 +35,7 @@ public class RendererText extends RajawaliRenderer implements
     private final SharedPreferences mSharedPreferences;
 
     private Text mText;
-    private int lastSecond=-1;
+    private int mNumber=1;
     public RendererText(Context context) {
         super(context);
 
@@ -46,18 +46,17 @@ public class RendererText extends RajawaliRenderer implements
 
     @Override
     protected void initScene() {
-        RajLog.systemInformation();
-
-        //Camera2D cam = new Camera2D();
-        //this.replaceAndSwitchCamera(getCurrentCamera(), cam);
+setFrameRate(5);
+        Camera2D cam = new Camera2D();
+        this.replaceAndSwitchCamera(getCurrentCamera(), cam);
 
         getCurrentScene().setBackgroundColor(Color.WHITE);
         getCurrentCamera().setLookAt(0, 0, 0);
 
-        mText = new Text(mContext, "123", 28);
+        mText = new Text(mContext, "", 28);
         mText.setBackgroundColor(Color.WHITE);
         mText.setTextColor(Color.BLACK);
-        mText.setFont("fonts/DK_Pusekatt.otf");
+        //mText.setFont("fonts/DK_Pusekatt.otf");
         mText.setPosition(0, 0, 0);
         addChild(mText.getObject3D());
     }
@@ -67,16 +66,12 @@ public class RendererText extends RajawaliRenderer implements
     public void onDrawFrame(GL10 glUnused) {
         super.onDrawFrame(glUnused);
         if(mText!= null){
-            Date date = new Date();
-            int hours = date.getHours();
-            int minutes = date.getMinutes();
-            int secondes =date.getSeconds();
-            //mText.setText("" + hours + " : " + String.format("%02d", minutes)+" : " + String.format("%02d", secondes));
-            //mTextureManager.replaceTexture(mText.getTexture());
-           if(lastSecond!= secondes){
-            mText.setText(mText.getText()+"A");
-            lastSecond=secondes;
-           }
+
+            mText.setText(mText.getText()+mNumber);
+            mNumber++;
+            if(mNumber>9){
+                mNumber=0;
+            }
             mTextureManager.replaceTexture(mText.getTexture());
 
         }
