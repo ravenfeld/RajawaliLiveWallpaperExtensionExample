@@ -58,7 +58,7 @@ public class RendererBackgroundFixedEffect extends RajawaliRenderer implements
 			e.printStackTrace();
 		}
         mBackgroundFixedEffect.setDuration(2000);
-        registerAnimation(mBackgroundFixedEffect.getAnimation());
+        registerAnimation(mBackgroundFixedEffect.getSwitchTextureAnimation());
 
 		addChild(mBackgroundFixedEffect.getObject3D());
 
