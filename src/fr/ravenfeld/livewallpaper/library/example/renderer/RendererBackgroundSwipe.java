@@ -88,7 +88,6 @@ public class RendererBackgroundSwipe extends RajawaliRenderer implements
 	@Override
 	public void onVisibilityChanged(boolean visible) {
 		super.onVisibilityChanged(visible);
-
 	}
 
 	@Override

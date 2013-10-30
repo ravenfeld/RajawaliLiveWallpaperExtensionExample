@@ -98,6 +98,9 @@ public class RendererBackgroundFixedEffect extends RajawaliRenderer implements
 	public void onSurfaceDestroyed() {
         try {
             mBackgroundFixedEffect.surfaceDestroyed();
+            if(mBackgroundFixedEffect.getSwitchTextureAnimation()!= null){
+                unregisterAnimation(mBackgroundFixedEffect.getSwitchTextureAnimation());
+            }
             mTextureManager.taskRemove(mBackgroundFixedEffect.getTextures()[0]);
             mTextureManager.taskRemove(mBackgroundFixedEffect.getTextures()[1]);
             mMaterialManager.taskRemove(mBackgroundFixedEffect.getMaterial());
