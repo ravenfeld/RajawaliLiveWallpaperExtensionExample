@@ -15,64 +15,56 @@ package fr.ravenfeld.livewallpaper.library.example.renderer;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-import rajawali.materials.Material;
-import rajawali.materials.plugins.SpriteSheetMaterialPlugin;
-import rajawali.materials.textures.ATexture.TextureException;
-import rajawali.materials.textures.Texture;
-import rajawali.primitives.PointSprite;
+import rajawali.Object3D;
+import rajawali.parser.LoaderOBJ;
+import rajawali.parser.ParsingException;
 import rajawali.renderer.RajawaliRenderer;
 import rajawali.util.RajLog;
 import rajawali.wallpaper.Wallpaper;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Color;
+import android.util.Log;
 import android.view.MotionEvent;
 import fr.ravenfeld.livewallpaper.library.example.R;
-import fr.ravenfeld.livewallpaper.library.objects.simple.BackgroundFixed;
 
 public class RendererTest extends RajawaliRenderer implements
 		SharedPreferences.OnSharedPreferenceChangeListener {
-	private final SharedPreferences mSharedPreferences;
 
-	private BackgroundFixed mBackgroundFixed;
-
+private Object3D mDigito;
 	public RendererTest(Context context) {
 		super(context);
-
-		mSharedPreferences = context.getSharedPreferences(
-				Wallpaper.SHARED_PREFS_NAME, 0);
-		mSharedPreferences.registerOnSharedPreferenceChangeListener(this);
 	}
+
+    @Override
+    public void setSharedPreferences(SharedPreferences preferences) {
+        super.setSharedPreferences(preferences);
+        preferences.registerOnSharedPreferenceChangeListener(this);
+    }
 
 	@Override
 	protected void initScene() {
 		RajLog.systemInformation();
-		getCurrentScene().setBackgroundColor(Color.RED);
-		PointSprite pointSprite = new PointSprite(1, 1);
-		pointSprite.setTransparent(true);
-		getCurrentScene().addChild(pointSprite);
+        getCurrentCamera().setZ(15);
+        LoaderOBJ objParserNew = new LoaderOBJ (mContext.getResources (), mTextureManager, R.raw.tomahawk_obj);
+        mDigito = new Object3D  ();
+        try {
+            objParserNew.parse ();
+            mDigito = objParserNew.getParsedObject ();
+        } catch (ParsingException e1) {
+            e1.printStackTrace ();
+            Log.e("TEST", "ERREUR " + e1.getMessage());
+        }
+        addChild(mDigito);
+        mDigito.setRotZ(90);
+    }
 
-
-		Material material = new Material();
-		try {
-			material.addTexture(new Texture("towerSpriteSheet",
- R.drawable.sprite));
-		} catch (TextureException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		SpriteSheetMaterialPlugin spriteSheet = new SpriteSheetMaterialPlugin(
-				7, 1, 1, 7);
-		material.addPlugin(spriteSheet);
-		spriteSheet.play();
-		pointSprite.setMaterial(material);
-	}
 
 	@Override
 	public void onDrawFrame(GL10 glUnused) {
 		super.onDrawFrame(glUnused);
-	}
+        mDigito.setRotY(mDigito.getRotY() + 1f);
+
+    }
 
 	@Override
 	public void onTouchEvent(MotionEvent event) {
@@ -87,9 +79,7 @@ public class RendererTest extends RajawaliRenderer implements
 	@Override
 	public void onSurfaceChanged(GL10 gl, int width, int height) {
 		super.onSurfaceChanged(gl, width, height);
-		if (mBackgroundFixed != null) {
-			mBackgroundFixed.surfaceChanged(width, height);
-		}
+
 	}
 
 	@Override
