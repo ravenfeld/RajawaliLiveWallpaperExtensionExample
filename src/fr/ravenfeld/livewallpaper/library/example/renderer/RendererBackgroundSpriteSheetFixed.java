@@ -29,16 +29,17 @@ import fr.ravenfeld.livewallpaper.library.objects.simple.BackgroundSpriteSheetFi
 
 public class RendererBackgroundSpriteSheetFixed extends RajawaliRenderer implements
 		SharedPreferences.OnSharedPreferenceChangeListener {
-	private final SharedPreferences mSharedPreferences;
 
 	private BackgroundSpriteSheetFixed mBackgroundSpriteSheetFixed;
 	public RendererBackgroundSpriteSheetFixed(Context context) {
 		super(context);
-
-		mSharedPreferences = context.getSharedPreferences(
-				Wallpaper.SHARED_PREFS_NAME, 0);
-		mSharedPreferences.registerOnSharedPreferenceChangeListener(this);
 	}
+
+    @Override
+    public void setSharedPreferences(SharedPreferences preferences) {
+        super.setSharedPreferences(preferences);
+        preferences.registerOnSharedPreferenceChangeListener(this);
+    }
 
 	@Override
 	protected void initScene() {

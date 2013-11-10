@@ -12,26 +12,31 @@
  */
 package fr.ravenfeld.livewallpaper.library.example.renderer;
 
-import javax.microedition.khronos.egl.EGLConfig;
-import javax.microedition.khronos.opengles.GL10;
-import rajawali.materials.Material;
-import rajawali.materials.textures.ATexture.TextureException;
-import rajawali.materials.textures.Texture;
-import rajawali.primitives.Plane;
-import rajawali.renderer.RajawaliRenderer;
-import rajawali.util.RajLog;
-import rajawali.wallpaper.Wallpaper;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.view.MotionEvent;
+
+import javax.microedition.khronos.egl.EGLConfig;
+import javax.microedition.khronos.opengles.GL10;
+
 import fr.ravenfeld.livewallpaper.library.example.R;
+import fr.ravenfeld.livewallpaper.library.objects.simple.BackgroundFixed;
+import rajawali.Camera2D;
+import rajawali.animation.Animation;
+import rajawali.animation.ScrollingAnimationTexture;
+import rajawali.materials.textures.ATexture.TextureException;
+import rajawali.renderer.RajawaliRenderer;
+import rajawali.util.RajLog;
+import rajawali.wallpaper.Wallpaper;
 
-public class RendererBackgroundBasic extends RajawaliRenderer implements
+public class RendererBackgroundFixedScrolling extends RajawaliRenderer implements
 		SharedPreferences.OnSharedPreferenceChangeListener {
-	private Plane mSphere;
 
-	public RendererBackgroundBasic(Context context) {
+	private BackgroundFixed mBackgroundFixed;
+private ScrollingAnimationTexture mScrollingAnimationTexture;
+
+	public RendererBackgroundFixedScrolling(Context context) {
 		super(context);
 	}
 
@@ -44,25 +49,34 @@ public class RendererBackgroundBasic extends RajawaliRenderer implements
 	@Override
 	protected void initScene() {
 		RajLog.systemInformation();
-		setFrameRate(60);
+
+		Camera2D cam = new Camera2D();
+		this.replaceAndSwitchCamera(getCurrentCamera(), cam);
 		getCurrentScene().setBackgroundColor(Color.RED);
+		getCurrentCamera().setLookAt(0, 0, 0);
+
 		try {
-			Material material = new Material();
-			material.addTexture(new Texture("sphere", R.drawable.bob_bg));
-			mSphere = new Plane(1, 1, 1, 1);
-			mSphere.setMaterial(material);
-			addChild(mSphere); // Queue an addition task for mSphere
+			mBackgroundFixed = new BackgroundFixed("bg", R.drawable.bg_power2);
+
 		} catch (TextureException e) {
 			e.printStackTrace();
 		}
-		getCurrentCamera().setZ(4.2f);
-	}
 
+        mScrollingAnimationTexture = new ScrollingAnimationTexture();
+        mScrollingAnimationTexture.setTexture(mBackgroundFixed.getTexture());
+        mScrollingAnimationTexture.setDuration(5000);
+        mScrollingAnimationTexture.setRepeatMode(Animation.RepeatMode.INFINITE);
+        mScrollingAnimationTexture.setDirectionMode(ScrollingAnimationTexture.DirectionMode.LEFT_TO_RIGHT);
+
+        registerAnimation(mScrollingAnimationTexture);
+		addChild(mBackgroundFixed.getObject3D());
+        mScrollingAnimationTexture.play();
+
+	}
 
 	@Override
 	public void onDrawFrame(GL10 glUnused) {
 		super.onDrawFrame(glUnused);
-		mSphere.setRotY(mSphere.getRotY() + 2.5f);
 	}
 
 	@Override
@@ -78,6 +92,9 @@ public class RendererBackgroundBasic extends RajawaliRenderer implements
 	@Override
 	public void onSurfaceChanged(GL10 gl, int width, int height) {
 		super.onSurfaceChanged(gl, width, height);
+		if (mBackgroundFixed != null) {
+			mBackgroundFixed.surfaceChanged(width, height);
+		}
 	}
 
 	@Override
@@ -88,7 +105,15 @@ public class RendererBackgroundBasic extends RajawaliRenderer implements
 
 	@Override
 	public void onSurfaceDestroyed() {
-		super.onSurfaceDestroyed();
+        try {
+            mBackgroundFixed.surfaceDestroyed();
+            mTextureManager.taskRemove(mBackgroundFixed.getTexture());
+            mMaterialManager.taskRemove(mBackgroundFixed.getMaterial());
+            unregisterAnimation(mScrollingAnimationTexture);
+        } catch (TextureException e) {
+            e.printStackTrace();
+        }
+        super.onSurfaceDestroyed();
 	}
 
 	@Override

@@ -28,17 +28,18 @@ import rajawali.wallpaper.Wallpaper;
 
 public class RendererText extends RajawaliRenderer implements
         SharedPreferences.OnSharedPreferenceChangeListener {
-    private final SharedPreferences mSharedPreferences;
 
     private Text mText;
     private int mNumber = 1;
 
     public RendererText(Context context) {
         super(context);
+    }
 
-        mSharedPreferences = context.getSharedPreferences(
-                Wallpaper.SHARED_PREFS_NAME, 0);
-        mSharedPreferences.registerOnSharedPreferenceChangeListener(this);
+    @Override
+    public void setSharedPreferences(SharedPreferences preferences) {
+        super.setSharedPreferences(preferences);
+        preferences.registerOnSharedPreferenceChangeListener(this);
     }
 
     @Override
@@ -61,6 +62,7 @@ public class RendererText extends RajawaliRenderer implements
     @Override
     public void onDrawFrame(GL10 glUnused) {
         super.onDrawFrame(glUnused);
+
     }
 
     @Override

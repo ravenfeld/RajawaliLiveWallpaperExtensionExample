@@ -29,16 +29,17 @@ import fr.ravenfeld.livewallpaper.library.objects.simple.BackgroundSpriteSheetSw
 
 public class RendererBackgroundSpriteSheetSwipe extends RajawaliRenderer implements
 		SharedPreferences.OnSharedPreferenceChangeListener {
-	private final SharedPreferences mSharedPreferences;
 
 	private BackgroundSpriteSheetSwipe mBackgroundSpriteSheetSwipe;
 	public RendererBackgroundSpriteSheetSwipe(Context context) {
 		super(context);
-
-		mSharedPreferences = context.getSharedPreferences(
-				Wallpaper.SHARED_PREFS_NAME, 0);
-		mSharedPreferences.registerOnSharedPreferenceChangeListener(this);
 	}
+
+    @Override
+    public void setSharedPreferences(SharedPreferences preferences) {
+        super.setSharedPreferences(preferences);
+        preferences.registerOnSharedPreferenceChangeListener(this);
+    }
 
 	@Override
 	protected void initScene() {
